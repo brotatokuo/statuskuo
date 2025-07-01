@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero">
+        {% if page.hero_image %}
+            {% image page.hero_image original as hero_img %}
+            <div class="hero-image" style="background-image: url('{{ hero_img.url }}');"></div>
+        {% endif %}
+        <div class="hero-content">
+            <h1>{{ page.hero_title }}</h1>
+            {% if page.hero_subtitle %}
+                <p class="hero-subtitle">{{ page.hero_subtitle }}</p>
+            {% endif %}
+            <a href="/booking/" class="hero-cta">
+                Book Your Session
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Featured Work Section -->
+    {% if page.featured_image_1 or page.featured_image_2 %}
+    <section class="featured-work">
+        <div class="container">
+            <h2 class="fade-in">Featured Work</h2>
+            <div class="featured-images">
+                {% if page.featured_image_1 %}
+                    {% image page.featured_image_1 fill-500x400 as featured_1 %}
+                    <div class="featured-item fade-in">
+                        <img src="{{ featured_1.url }}" alt="Featured work 1" loading="lazy">
+                    </div>
+                {% endif %}
+                {% if page.featured_image_2 %}
+                    {% image page.featured_image_2 fill-500x400 as featured_2 %}
+                    <div class="featured-item fade-in">
+                        <img src="{{ featured_2.url }}" alt="Featured work 2" loading="lazy">
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Photography Categories -->
+    <section class="photography-categories">
+        <div class="container">
+            <h2 class="fade-in">Our Photography Services</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L3 7l9 5 9-5-9-5z"/>
+                            <path d="M3 17l9 5 9-5"/>
+                            <path d="M3 12l9 5 9-5"/>
+                        </svg>
+                    </div>
+                    <h3>Graduation Photography</h3>
+                    <p>Capture your milestone moment with professional graduation photos that celebrate your academic achievements.</p>
+                    <a href="/graduation/" class="btn btn-secondary">View Gallery</a>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                    </div>
+                    <h3>Wedding Photography</h3>
+                    <p>Beautiful, timeless wedding photography for your special day that captures every precious moment.</p>
+                    <a href="/wedding/" class="btn btn-secondary">View Gallery</a>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <h3>Personal Photography</h3>
+                    <p>Professional portraits and personal photography sessions that tell your unique story.</p>
+                    <a href="/personal/" class="btn btn-secondary">View Gallery</a>
+                </div>
+            </div>
+            <div class="booking-cta">
+                <a href="/booking/" class="btn btn-primary btn-lg">Book Your Session Today</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <h2 class="fade-in">{{ page.about_title }}</h2>
+            {% if page.about_text %}
+                <div class="about-content fade-in">
+                    {{ page.about_text|richtext }}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    {% if page.contact_email or page.contact_phone %}
+    <section class="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <div class="contact-info">
+                {% if page.contact_email %}
+                    <p><strong>Email:</strong> <a href="mailto:{{ page.contact_email }}">{{ page.contact_email }}</a></p>
+                {% endif %}
+                {% if page.contact_phone %}
+                    <p><strong>Phone:</strong> <a href="tel:{{ page.contact_phone }}">{{ page.contact_phone }}</a></p>
+                {% endif %}
+                <p><strong>Ready to book?</strong> <a href="/booking/">Schedule your session</a></p>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+{% endblock %}

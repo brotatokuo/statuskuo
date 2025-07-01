@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+
+{% block body_class %}template-photogallery{% endblock %}
+
+{% block content %}
+    <div class="gallery-header">
+        <div class="container">
+            <h1 class="fade-in">{{ page.title }}</h1>
+            {% if page.intro %}
+                <div class="gallery-intro fade-in">
+                    {{ page.intro|richtext }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if page.gallery_images.all %}
+        <div class="photo-gallery">
+            {% for gallery_image in page.gallery_images.all %}
+                <div class="gallery-item">
+                    {% image gallery_image.image fill-400x320 as photo %}
+                    {% image gallery_image.image original as full_photo %}
+                    <img src="{{ photo.url }}" alt="{{ gallery_image.caption|default:page.title }}" 
+                         loading="lazy"
+                         onclick="openLightbox('{{ full_photo.url }}', '{{ gallery_image.caption|default:page.title }}')">
+                    {% if gallery_image.caption %}
+                        <div class="gallery-caption">{{ gallery_image.caption }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-images">
+            <div class="container">
+                <div class="empty-state">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21,15 16,10 5,21"/>
+                    </svg>
+                    <h3>No images yet</h3>
+                    <p>This gallery is waiting for beautiful photos to be added.</p>
+                    <a href="/booking/" class="btn btn-primary">Book a Session</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="close" onclick="closeLightbox()">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
+    <script>
+        function openLightbox(src, caption) {
+            document.getElementById('lightbox').style.display = 'block';
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox-caption').innerHTML = caption;
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+    </script>
+{% endblock %}
