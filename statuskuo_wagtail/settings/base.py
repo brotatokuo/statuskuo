@@ -62,7 +62,6 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
-MIDDLEWARE.insert(5, "apps.settings.self_ping_middleware.SelfPingMiddleware")
 
 ROOT_URLCONF = "statuskuo_wagtail.urls"
 
