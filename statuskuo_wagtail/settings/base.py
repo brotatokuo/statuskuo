@@ -61,6 +61,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    "statuskuo_wagtail.middleware.SelfPingMiddleware",
 ]
 
 ROOT_URLCONF = "statuskuo_wagtail.urls"
