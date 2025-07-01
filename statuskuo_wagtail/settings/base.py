@@ -62,6 +62,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
+MIDDLEWARE.insert(5, "apps.settings.self_ping_middleware.SelfPingMiddleware")
 
 ROOT_URLCONF = "statuskuo_wagtail.urls"
 
@@ -89,17 +90,17 @@ WSGI_APPLICATION = "statuskuo_wagtail.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+tmpPostgres = urlparse(os.getenv("DATABASE_URL", ""))
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.replace('/', ''),
-        'USER': tmpPostgres.username,
-        'PASSWORD': tmpPostgres.password,
-        'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
-        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+        'NAME': tmpPostgres.path[1:] if tmpPostgres.path else '',
+        'USER': tmpPostgres.username or '',
+        'PASSWORD': tmpPostgres.password or '',
+        'HOST': tmpPostgres.hostname or '',
+        'PORT': tmpPostgres.port or 5432,
+        'OPTIONS': dict(parse_qsl(tmpPostgres.query)) if tmpPostgres.query else {},
     }
 }
 
